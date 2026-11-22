@@ -1,61 +1,77 @@
-
 <!doctype html>
 <html lang="vi">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>SafeBank – Xác minh tài khoản (mô phỏng)</title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<body>
+  <body>
+    <header class="site">
+      <p class="logo">SafeBank</p>
+      <nav>
+        <a href="#" onclick="return false;">Hỗ trợ</a>
+      </nav>
+    </header>
 
-<header class="site">
-    <p class="logo">SafeBank</p>
-    <nav>
-        <a href="#" onclick="return false">Hỗ trợ</a>
-    </nav>
-</header>
-
-<main>
-    <form class="login panel" id="phishForm"
-          autocomplete="off" novalidate>
-
-        <h1 style="font-size:1.6rem">
-            Cảnh báo bảo mật: xác minh ngay
-        </h1>
+    <main>
+      <form
+        class="login panel"
+        id="phishForm"
+        method="POST"
+        action=""
+        autocomplete="off"
+        novalidate
+      >
+        <h1 style="font-size: 1.6rem">Cảnh báo bảo mật: xác minh ngay</h1>
 
         <p>
-            Tài khoản của bạn sẽ bị
-            <b>khóa sau 24 giờ</b> nếu không xác minh.
-            Vui lòng đăng nhập để tiếp tục.
+          Tài khoản của bạn sẽ bị
+          <b>khóa sau 24 giờ</b> nếu không xác minh. Vui lòng đăng nhập để tiếp
+          tục.
         </p>
 
         <label for="u">Tên đăng nhập</label>
-        <input id="u" type="text">
+        <input id="u" name="username" type="text" />
 
         <label for="p">Mật khẩu</label>
-        <input id="p" type="password">
+        <input id="p" name="password" type="password" />
 
-        <button class="btn" type="submit" style="margin-top:16px">
-            Xác minh ngay
+        <!-- Synthetic training data only -->
+        <input
+          type="hidden"
+          name="training_reference"
+          id="training_reference"
+        />
+
+        <button class="btn" type="submit" style="margin-top: 16px">
+          Xác minh ngay
         </button>
+      </form>
+    </main>
 
-    </form>
-</main>
+    <footer>Trang mô phỏng phục vụ đào tạo.</footer>
 
-<footer>
-    Trang mô phỏng phục vụ đào tạo.
-</footer>
+    <script>
+      document
+        .getElementById("phishForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
 
-<script>
-    document.getElementById("phishForm").addEventListener("submit", function(e) {
-        e.preventDefault();
+          // Generate a random synthetic training reference.
+          const reference =
+            "LAB-" + Math.random().toString(36).substring(2, 10).toUpperCase();
 
-        // No credentials are collected or stored.
-        window.location.href = "index.html";
-    });
-</script>
+          document.getElementById("training_reference").value = reference;
 
-</body>
+          // Exclude username and password from the POST request.
+          document.getElementById("u").disabled = true;
+          document.getElementById("p").disabled = true;
+
+          // Submit only the synthetic reference.
+          this.submit();
+        });
+    </script>
+  </body>
 </html>
