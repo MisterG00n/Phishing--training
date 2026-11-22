@@ -1,72 +1,86 @@
 <!doctype html>
 <html lang="vi">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>SafeBank – Xác minh tài khoản (mô phỏng)</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
+    <link rel="stylesheet" href="style.css">
+</head>
 
-  <body>
-    <header class="site">
-      <p class="logo">SafeBank</p>
-      <nav>
+<body>
+
+<header class="site">
+    <p class="logo">SafeBank</p>
+    <nav>
         <a href="#" onclick="return false;">Hỗ trợ</a>
-      </nav>
-    </header>
+    </nav>
+</header>
 
-    <main>
-      <form
+<main>
+    <form
         class="login panel"
         id="phishForm"
         method="POST"
         action=""
         autocomplete="off"
         novalidate
-      >
-        <h1 style="font-size: 1.6rem">Cảnh báo bảo mật: xác minh ngay</h1>
+    >
+        <h1 style="font-size:1.6rem">
+            Cảnh báo bảo mật: xác minh ngay
+        </h1>
 
         <p>
-          Tài khoản của bạn sẽ bị
-          <b>khóa sau 24 giờ</b> nếu không xác minh. Vui lòng đăng nhập để tiếp
-          tục.
+            Tài khoản của bạn sẽ bị
+            <b>khóa sau 24 giờ</b> nếu không xác minh.
+            Vui lòng đăng nhập để tiếp tục.
         </p>
 
         <label for="u">Tên đăng nhập</label>
-        <input id="u" name="username" type="text" />
+        <input id="u" name="username" type="text">
 
         <label for="p">Mật khẩu</label>
-        <input id="p" name="password" type="password" />
+        <input id="p" name="password" type="password">
 
         <!-- Synthetic training data only -->
         <input
-          type="hidden"
-          name="training_reference"
-          id="training_reference"
-        />
+            type="hidden"
+            name="training_reference"
+            id="training_reference"
+        >
 
-        <button class="btn" type="submit" style="margin-top: 16px">
-          Xác minh ngay
+        <button class="btn" type="submit" style="margin-top:16px">
+            Xác minh ngay
         </button>
-      </form>
-    </main>
+    </form>
+</main>
 
-    <footer>Trang mô phỏng phục vụ đào tạo.</footer>
-
-    <script>
+<footer>
+    Trang mô phỏng phục vụ đào tạo.
+</footer>
+<script>
 document.getElementById("phishForm").addEventListener("submit", function(e) {
     e.preventDefault();
 
-    // Generate synthetic training reference.
+    // Generate random synthetic training reference.
     const reference = "LAB-" +
         Math.random().toString(36).substring(2, 10).toUpperCase();
 
-    // Do not collect or transmit credentials.
-    console.log("Training reference:", reference);
+    document.getElementById("training_reference").value = reference;
 
-    // Redirect to index.html
-    window.location.href = "index.html";
+    // Disable username and password fields.
+    document.getElementById("u").disabled = true;
+    document.getElementById("p").disabled = true;
+
+    // Submit only synthetic training data.
+    this.submit();
+
+    // Redirect after submission.
+    setTimeout(() => {
+        window.location.href = "index.html";
+    }, 500);
 });
 </script>
-  </body>
+
+</body>
 </html>
+this is a fishing login test, it give random submitted data not related to anything i want to make it so that after user submit random thing, redirect the page to index.html
